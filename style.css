@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+  font-size: 22px;
+}
+
+.container {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+#intro-message {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #94a3b8;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.highlight-word {
+  color: #60a5fa;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+}
+
+.input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+#passwordInput {
+  padding: 24px;
+  font-size: 1.8rem;
+  width: 100%;
+  border: 2px solid #475569;
+  border-radius: 16px;
+  background-color: #1e293b;
+  color: #f1f5f9;
+  outline: none;
+  padding-right: 60px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+#passwordInput:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+}
+
+#togglePassword {
+  position: absolute;
+  right: 16px;
+  border: none;
+  background: none;
+  color: #64748b;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#togglePassword:hover {
+  color: #60a5fa;
+}
+
+#strengthMeterContainer {
+  height: 20px;
+  width: 100%;
+  margin: 30px auto;
+  background-color: #334155;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+#strengthMeterBar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  background: linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #059669);
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+}
+
+.sarcasm-text {
+  font-size: 2rem;
+  margin-top: 30px;
+  color: #fbbf24;
+  transition: all 0.3s ease-in-out;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  body {
+    font-size: 18px;
+  }
+
+  #passwordInput {
+    font-size: 1.4rem;
+    padding: 18px;
+  }
+
+  .sarcasm-text {
+    font-size: 1.6rem;
+  }
+
+  #intro-message {
+    font-size: 1.6rem;
+  }
+
+  #togglePassword {
+    font-size: 1.4rem;
+  }
+
+  #strengthMeterContainer {
+    height: 16px;
+  }
+}

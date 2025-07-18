@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passive Aggressive Password Machine</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Intro Text -->
+    <div id="intro-message" class="fade-in">
+      If a <span class="highlight-word">sarcastic</span> AI judged your password, it’d sound like this.
+    </div>
+
+    <!-- Password Input Group -->
+    <div class="input-group">
+      <input 
+        type="password" 
+        id="passwordInput" 
+        placeholder="Enter your password..." 
+        maxlength="64"
+        autocomplete="off"
+      />
+      <button id="togglePassword" title="Show/Hide Password">👁️</button>
+    </div>
+
+    <!-- Strength Meter -->
+    <div id="strengthMeterContainer">
+      <div id="strengthMeterBar"></div>
+    </div>
+
+    <!-- Sarcastic Response -->
+    <div id="sarcasmOutput" class="sarcasm-text">
+      <!-- Dynamic sarcasm will appear here -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
