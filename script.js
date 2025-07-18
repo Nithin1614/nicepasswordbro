@@ -41,7 +41,13 @@ const weakSarcasm = [
   "Your password is basically a welcome mat for cybercriminals.",
   "This password screams 'please hack me' louder than a megaphone.",
   "You've created the password equivalent of a glass house.",
-  "This password is so bad, it's actually impressive in its terribleness."
+  "This password is so bad, it's actually impressive in its terribleness.",
+  "Original. Truly groundbreaking.",
+  "Do you sleepwalk through password creation too?",
+  "Hackers love you too.",
+  "Wow, how refreshingly predictable.",
+  "This password has all the creativity of a brick wall.",
+  "I'm impressed by your dedication to mediocrity."
 ];
 
 const averageSarcasm = [
