@@ -1,27 +1,23 @@
-# nicepasswordbro
-A brutally honest password strength checker that roasts weak choices with sarcasm. Built with HTML, CSS, and JS. Use it, laugh at it, improve it.
-# 🙃 Nice Password, Bro
+# 🛡️ Nice Password, Bro
 
-A brutally honest password strength checker with a hint of sarcasm.
+A brutally honest password strength checker that roasts your weak choices with sarcasm. Built with HTML, CSS, and JavaScript.
+
+🧪 **Live Demo:** [nicepasswordbro.vercel.app](https://nicepasswordbro.vercel.app/)
 
 ## 🚀 Features
-- Judges your password with peak sarcasm
-- Roasts weak passwords in real-time
-- Fun UI with instant feedback
-- Pure HTML, CSS, and JavaScript (no frameworks)
+- Roasts your password with sarcasm
+- Instant feedback with JS
+- Clean, responsive UI
 
-## 🎯 Example Responses
-- `123456` → *"Original. Truly groundbreaking."*
-- `qwerty` → *"Do you sleepwalk through password creation too?"*
-- `ILoveYou` → *"Hackers love you too."*
-- `CorrectHorseBatteryStaple` → *"We get it. You read xkcd."*
+## 🛠️ Tech Stack
+- HTML
+- CSS
+- JavaScript
 
-## 🧠 How It Works
-It checks for:
-- Length
-- Common patterns
-- Predictable sequences
-- And gives back sass accordingly
+## 📦 Usage
+1. Clone or fork this repo
+2. Open `index.html` in your browser
+3. Start typing — and brace yourself
 
-## 📦 Installation
-Just clone and open `index.html` in any browser:
+## 📜 License
+MIT License — use it, improve it, meme it.
