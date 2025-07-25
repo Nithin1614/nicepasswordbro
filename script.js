@@ -4,7 +4,7 @@ const introMessage = document.getElementById("intro-message");
 const togglePassword = document.getElementById("togglePassword");
 const strengthBar = document.getElementById("strengthMeterBar");
 
-// Enhanced Sarcasm Messages
+// Enhanced Sarcasm Messages (keeping your original ones)
 const weakSarcasm = [
   "Seriously? My pet goldfish could crack this.",
   "This password is weaker than my WiFi signal.",
@@ -161,159 +161,125 @@ function highlightRandomWord(text) {
   return words.join(" ");
 }
 
-// Fixed and enhanced password strength calculation
+// COMPLETELY REWRITTEN - Modern, Accurate Password Strength Logic
 function calculatePasswordStrength(password) {
-  let score = 0;
-  let checks = {
-    length: false,
-    lowercase: false,
-    uppercase: false,
-    numbers: false,
-    symbols: false,
-    noCommon: false,
-    noSequential: false,
-    noRepeated: false
-  };
-
-  // Enhanced length scoring with proper progression
   const length = password.length;
-  if (length >= 8) {
-    score += 15;
-    checks.length = true;
-  }
-  if (length >= 12) score += 15;
-  if (length >= 16) score += 10;
-  if (length >= 20) score += 10;
   
-  // Penalty for very short passwords
-  if (length < 6) score -= 20;
-  if (length < 4) score -= 20;
-
-  // Character variety with proper weighting
-  if (/[a-z]/.test(password)) {
-    score += 10;
-    checks.lowercase = true;
-  }
-  if (/[A-Z]/.test(password)) {
-    score += 10;
-    checks.uppercase = true;
-  }
-  if (/[0-9]/.test(password)) {
-    score += 10;
-    checks.numbers = true;
-  }
-  if (/[^a-zA-Z0-9]/.test(password)) {
-    score += 15;
-    checks.symbols = true;
-  }
-
-  // Count character variety for bonus
-  const varietyCount = [
-    checks.lowercase,
-    checks.uppercase,
-    checks.numbers,
-    checks.symbols
-  ].filter(Boolean).length;
-
-  // Bonus for character variety
-  if (varietyCount >= 3) score += 10;
-  if (varietyCount === 4) score += 15;
-
-  // Enhanced common pattern detection
-  const commonPatterns = [
-    /password/i, /123456/, /qwerty/i, /admin/i, /login/i,
-    /welcome/i, /monkey/i, /letmein/i, /dragon/i, /master/i,
-    /111111/, /000000/, /iloveyou/i, /princess/i, /rockyou/i,
-    /12345678/, /abc123/i, /password1/i, /password123/i
+  // Character analysis
+  const hasLower = /[a-z]/.test(password);
+  const hasUpper = /[A-Z]/.test(password);
+  const hasNumbers = /[0-9]/.test(password);
+  const hasSymbols = /[^a-zA-Z0-9]/.test(password);
+  
+  // Count quantities (important for advanced scoring)
+  const upperCount = (password.match(/[A-Z]/g) || []).length;
+  const numberCount = (password.match(/[0-9]/g) || []).length;
+  const symbolCount = (password.match(/[^a-zA-Z0-9]/g) || []).length;
+  
+  // Character variety count
+  const charTypes = [hasLower, hasUpper, hasNumbers, hasSymbols].filter(Boolean).length;
+  
+  // CRITICAL WEAK CHECKS FIRST (these override everything)
+  if (length < 4) return { score: 10, category: 'weak' };
+  
+  // Check for critically weak passwords
+  const criticallyWeak = [
+    'password', 'password1', 'password123', 'Password123',
+    '123456', '123456789', '12345678', 'qwerty', 'qwerty123',
+    'admin', 'admin123', 'welcome', 'welcome123', 'letmein',
+    '111111', '000000', 'abc123', '123abc', 'monkey', 'dragon'
   ];
   
-  const hasCommonPattern = commonPatterns.some(pattern => pattern.test(password));
-  if (!hasCommonPattern) {
-    score += 10;
-    checks.noCommon = true;
-  } else {
-    score -= 15; // Penalty for common patterns
+  if (criticallyWeak.some(weak => password.toLowerCase() === weak.toLowerCase())) {
+    return { score: 15, category: 'weak' };
   }
-
-  // Enhanced sequential character detection
-  const sequentialPatterns = [
-    /(?:abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz)/i,
-    /(?:012|123|234|345|456|567|678|789|890)/,
-    /(?:qwe|wer|ert|rty|tyu|yui|uio|iop|asd|sdf|dfg|fgh|ghj|hjk|jkl|zxc|xcv|cvb|vbn|bnm)/i
-  ];
   
-  const hasSequential = sequentialPatterns.some(pattern => pattern.test(password));
-  if (!hasSequential) {
-    score += 8;
-    checks.noSequential = true;
+  // MODERN POINT-BASED SYSTEM (0-10 points)
+  let points = 0;
+  
+  // 1. LENGTH IS KING (most important factor - up to 4 points)
+  if (length >= 8) points += 1;
+  if (length >= 12) points += 1;
+  if (length >= 16) points += 1;
+  if (length >= 20) points += 1;
+  
+  // 2. CHARACTER VARIETY (up to 4 points)
+  if (hasLower) points += 0.5;
+  if (hasUpper) points += 1;
+  if (hasNumbers) points += 1;
+  if (hasSymbols) points += 1.5; // Symbols are most valuable
+  
+  // 3. QUANTITY BONUSES (up to 3 points)
+  if (upperCount >= 2) points += 1;
+  if (numberCount >= 2) points += 1;
+  if (symbolCount >= 2) points += 1;
+  
+  // 4. ADVANCED BONUSES (up to 2 points)
+  if (charTypes === 4) points += 1; // All character types
+  if (length >= 14 && charTypes >= 3) points += 1; // Long + complex
+  
+  // 5. PATTERN PENALTIES (only for obvious weaknesses)
+  if (/(.)\1{3,}/.test(password)) points -= 1; // 4+ repeated chars
+  if (/123456|654321|abcdef|qwerty/i.test(password)) points -= 1; // Obvious sequences
+  
+  // Convert points to score and category
+  points = Math.max(0, points); // Ensure no negative points
+  
+  let category, score;
+  
+  if (points >= 9) {
+    category = 'excellent';
+    score = 90 + (points - 9) * 10; // 90-100
+  } else if (points >= 7) {
+    category = 'strong'; 
+    score = 70 + (points - 7) * 10; // 70-89
+  } else if (points >= 4) {
+    category = 'average';
+    score = 40 + (points - 4) * 10; // 40-69
   } else {
-    score -= 10; // Penalty for sequential patterns
+    category = 'weak';
+    score = points * 10; // 0-39
   }
-
-  // Enhanced repeated character detection
-  const hasRepeated = /(.)\1{2,}/.test(password);
-  if (!hasRepeated) {
-    score += 8;
-    checks.noRepeated = true;
-  } else {
-    score -= 10; // Penalty for repeated characters
-  }
-
-  // Check for dictionary words (simple check)
-  const simpleWords = ['password', 'welcome', 'admin', 'login', 'user', 'test', 'guest', 'root'];
-  const hasSimpleWord = simpleWords.some(word => 
-    password.toLowerCase().includes(word.toLowerCase())
-  );
-  if (hasSimpleWord) {
-    score -= 15;
-  }
-
-  // Bonus for complexity combinations
-  if (checks.lowercase && checks.uppercase && checks.numbers && checks.symbols) {
-    score += 20;
-  }
-
-  // Bonus for length + complexity
-  if (length >= 12 && varietyCount >= 3) {
-    score += 15;
-  }
-
-  // Ensure score is within bounds
-  score = Math.max(0, Math.min(score, 100));
-
-  return { score, checks };
+  
+  return { score: Math.min(score, 100), category, points };
 }
 
-// Fixed password strength categories with proper thresholds
-function getPasswordCategory(score) {
-  if (score >= 80) return 'excellent';
-  if (score >= 60) return 'strong';
-  if (score >= 35) return 'average';
-  return 'weak';
+// Simplified strength categories based on new logic
+function getPasswordCategory(password) {
+  const { category } = calculatePasswordStrength(password);
+  return category;
 }
 
 // Update strength meter with enhanced visuals
 function updateStrengthBar(password) {
-  const { score } = calculatePasswordStrength(password);
+  const { score, category } = calculatePasswordStrength(password);
   
   strengthBar.style.width = `${score}%`;
   
-  // Enhanced color progression
-  if (score < 35) {
-    strengthBar.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
-  } else if (score < 60) {
-    strengthBar.style.background = 'linear-gradient(to right, #f97316, #ea580c)';
-  } else if (score < 80) {
-    strengthBar.style.background = 'linear-gradient(to right, #eab308, #ca8a04)';
-  } else {
-    strengthBar.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
+  // Color based on category for consistency
+  switch (category) {
+    case 'excellent':
+      strengthBar.style.background = 'linear-gradient(to right, #22c55e, #16a34a)';
+      break;
+    case 'strong':
+      strengthBar.style.background = 'linear-gradient(to right, #eab308, #ca8a04)';
+      break;
+    case 'average':
+      strengthBar.style.background = 'linear-gradient(to right, #f97316, #ea580c)';
+      break;
+    default: // weak
+      strengthBar.style.background = 'linear-gradient(to right, #ef4444, #dc2626)';
   }
 }
 
-// Get sarcasm based on enhanced strength calculation
+// Get sarcasm based on category
 function getSarcasticMessage(password) {
-  const { score } = calculatePasswordStrength(password);
-  const category = getPasswordCategory(score);
+  const { score, category, points } = calculatePasswordStrength(password);
+  
+  // Debug logging (remove in production)
+  console.log(`Password: "${password}"`);
+  console.log(`Points: ${points}, Score: ${score}, Category: ${category}`);
+  console.log('---');
   
   let messageArray;
   switch (category) {
@@ -343,9 +309,17 @@ passwordInput.addEventListener("input", () => {
   const value = passwordInput.value.trim();
 
   if (value.length > 0) {
-    introMessage.classList.add("hidden");
+    // Hide intro message with smooth transition
+    introMessage.style.opacity = "0";
+    setTimeout(() => {
+      introMessage.style.display = "none";
+    }, 300);
   } else {
-    introMessage.classList.remove("hidden");
+    // Show intro message
+    introMessage.style.display = "block";
+    setTimeout(() => {
+      introMessage.style.opacity = "1";
+    }, 10);
     sarcasmOutput.innerHTML = "";
     strengthBar.style.width = "0%";
     return;
@@ -354,15 +328,17 @@ passwordInput.addEventListener("input", () => {
   const message = getSarcasticMessage(value);
   const { score } = calculatePasswordStrength(value);
 
-  // VIBRATE on weak passwords (enhanced threshold)
-  if (score < 35 && navigator.vibrate) {
+  // VIBRATE on weak passwords
+  if (score < 40 && navigator.vibrate) {
     navigator.vibrate(120);
   }
 
-  sarcasmOutput.classList.remove("fade-in");
-  void sarcasmOutput.offsetWidth;
-  sarcasmOutput.classList.add("fade-in");
-  sarcasmOutput.innerHTML = highlightRandomWord(message);
+  // Smooth message transition
+  sarcasmOutput.style.opacity = "0";
+  setTimeout(() => {
+    sarcasmOutput.innerHTML = highlightRandomWord(message);
+    sarcasmOutput.style.opacity = "1";
+  }, 100);
 
   updateStrengthBar(value);
 });
